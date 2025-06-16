@@ -44,7 +44,7 @@ public class WKMarkdownView: WKWebView {
         super.init(frame: frame, configuration: configuration)
         self.navigationDelegate = self
         isOpaque = false // Make background transparent
-        backgroundColor = .clear
+        backgroundColor = .systemBackground
         
         // Start loading local index.html from bundle
         loadingTask = Task {
