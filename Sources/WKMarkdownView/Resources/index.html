@@ -175,7 +175,7 @@
             if (!enableLatex) {
                 // If math is disabled, render Markdown directly
                 document.getElementById('markdown-content').innerHTML = marked.parse(markdownText);
-                return;
+                return null;
             }
 
             const formulaList = [];
@@ -217,6 +217,7 @@
                 math.parentNode.insertBefore(container, math);
                 container.appendChild(math);
             });
+            return null;
         }
     </script>
 </body>
