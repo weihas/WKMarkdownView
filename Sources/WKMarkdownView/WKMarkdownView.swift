@@ -74,12 +74,21 @@ public class WKMarkdownView: WKWebView {
         }
     }
     
+    #if compiler(>=6.1)
     /// Ensures JavaScript evaluation happens after `index.html` has been loaded
     @discardableResult
     open override func evaluateJavaScript(_ javaScriptString: String) async throws -> Any? {
         try await loadingTask?.value
         return try await super.evaluateJavaScript(javaScriptString)
     }
+    #else
+    /// Ensures JavaScript evaluation happens after `index.html` has been loaded
+    @discardableResult
+    open override func evaluateJavaScript(_ javaScriptString: String) async throws -> Any {
+        try await loadingTask?.value
+        return try await super.evaluateJavaScript(javaScriptString)
+    }
+    #endif
     
     /// Updates the rendered markdown by injecting it into the webview using JavaScript
     /// - Parameter newMarkdown: The markdown string to be rendered
