@@ -10,7 +10,7 @@ import WebKit
 
 /// A custom WKWebView subclass used to render Markdown content,
 /// with optional KaTeX math rendering support.
-public class WKMarkdownView: WKWebView {
+open class WKMarkdownView: WKWebView {
     
     /// The markdown string to be rendered
     public private(set) var markdown: String = ""
@@ -53,7 +53,7 @@ public class WKMarkdownView: WKWebView {
         }
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -92,7 +92,7 @@ public class WKMarkdownView: WKWebView {
     
     /// Updates the rendered markdown by injecting it into the webview using JavaScript
     /// - Parameter newMarkdown: The markdown string to be rendered
-    public func updateMarkdown(_ newMarkdown: String) async throws {
+    open func updateMarkdown(_ newMarkdown: String) async throws {
         self.markdown = newMarkdown
         
         // Escape markdown safely for JavaScript string injection
@@ -112,7 +112,7 @@ public class WKMarkdownView: WKWebView {
     }
     
     /// Returns the rendered content height of the markdown inside the webview
-    public func contentHeight() async throws -> Double {
+    open func contentHeight() async throws -> Double {
         guard try await evaluateJavaScript("document.readyState") != nil,
               let height = try await evaluateJavaScript("document.body.scrollHeight") as? Double else {
             return 0
@@ -125,7 +125,7 @@ public class WKMarkdownView: WKWebView {
 extension WKMarkdownView: WKNavigationDelegate {
     
     /// Called when webview finishes loading index.html, resumes the load continuation
-    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if let continuation = loadContinuation {
             loadContinuation = nil
             continuation.resume()
