@@ -171,10 +171,25 @@
          * @param {string} markdownText - The markdown string to render
          * @param {boolean} enableLatex - Whether to parse KaTeX formulas
          */
-        function renderMarkdown(markdownText, enableLatex = true) {
+         function renderMarkdown(markdownText, enableLatex = true) {
+            const container = document.getElementById('markdown-content');
+            
+            // If the markdown string is empty or contains only whitespace,
+            // clear the container and hide it to ensure the WebView height becomes 0.
+            if (!markdownText.trim()) {
+                container.innerHTML = '';
+                container.style.display = 'none';
+                return null;
+            }
+
+            // If there is valid content, make sure the container is visible
+            // so the WebView can adjust its height based on the rendered content.
+            container.style.display = 'block';
+            
+            
             if (!enableLatex) {
                 // If math is disabled, render Markdown directly
-                document.getElementById('markdown-content').innerHTML = marked.parse(markdownText);
+                container.innerHTML = marked.parse(markdownText);
                 return null;
             }
 
@@ -196,10 +211,10 @@
             });
 
             // Inject the final HTML into the content container
-            document.getElementById('markdown-content').innerHTML = html;
+            container.innerHTML = html;
 
             // Render math using KaTeX
-            renderMathInElement(document.getElementById('markdown-content'), {
+            renderMathInElement(container, {
                 delimiters: [
                     {left: "$$", right: "$$", display: true},
                     {left: "\\[", right: "\\]", display: true},
