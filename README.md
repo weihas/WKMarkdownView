@@ -12,6 +12,7 @@ A lightweight Swift component for rendering **Markdown** and **KaTeX math** insi
 - ✅ Async Swift API using `async/await`
 - ✅ Get dynamic content height for layout
 - ✅ Local resource loading, no internet required
+- ✅ **SwiftUI support** with auto height adjustment
 
 ---
 
@@ -80,8 +81,36 @@ Task {
 let markdownView = WKMarkdownView(enableLatex: false)
 ```
 
+### SwiftUI Support
+
+WKMarkdownView can be easily used inside SwiftUI via the built-in MarkdownView wrapper:
+
+```swift
+import WKMarkdownView
+import SwiftUI
+
+struct ContentView: View {
+    let markdown = """
+    # Welcome to SwiftUI
+
+    This is **Markdown** rendered in SwiftUI.
+
+    You can also write math:
+
+    $$
+    \\int_a^b f(x) \\, dx
+    $$
+    """
+
+    var body: some View {
+        MarkdownView(markdown)
+            .padding()
+    }
+}
+```
+
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/yourusername/WKMarkdownView/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/weihas/WKMarkdownView/issues).
