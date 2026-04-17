@@ -4,6 +4,10 @@
 
 A lightweight Swift component for rendering **Markdown** and **KaTeX math** inside a `WKWebView`, all using **local resources**.
 
+<p align="center">
+  <img src="./images/demo.png" width="300">
+</p>
+
 ---
 
 ## Features
@@ -77,31 +81,43 @@ struct ContentView: View {
 You can also use `WKMarkdownView` directly in a UIKit project.
 
 ```swift
+import UIKit
 import WKMarkdownView
+import WebKit
 
-// 1. Create a markdown view instance
-// LaTeX support is enabled by default
-let markdownView = WKMarkdownView() 
-view.addSubview(markdownView)
-
-// 2. Set its frame
-markdownView.frame = view.bounds
-markdownView.autoresizingMask = [.width, .height]
-
-// 3. Load the markdown content
-Task {
-    try? await markdownView.updateMarkdown("""
-    # Hello from UIKit
+class ViewController: UIViewController {
     
-    This is **Markdown** with math support:
-    
-    Inline math: $E = mc^2$
-    
-    Block math:
-    $$
-    \\frac{a}{b} = c
-    $$
-    """)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        // 1. Create a markdown view instance
+        // LaTeX support is enabled by default
+        let markdownView = WKMarkdownView()
+        view.addSubview(markdownView)
+        
+        // 2. Set its frame
+        markdownView.frame = view.bounds
+        markdownView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        // 3. Load the markdown content
+        
+        let markdown = """
+        # Hello from UIKit
+        
+        This is **Markdown** with math support:
+        
+        Inline math: $E = mc^2$
+        
+        Block math:
+        $$
+        \\frac{a}{b} = c
+        $$
+        """
+        
+        Task {
+            try? await markdownView.updateMarkdown(markdown)
+        }
+    }
 }
 ```
 
